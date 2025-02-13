@@ -1,6 +1,8 @@
+import * as dotenv from 'dotenv';
 import knex from 'knex';
 import config from 'knexfile';
 
-const db = knex(config.development);
+dotenv.config({ path: './.env' });
 
+const db = knex(config.development);
 export default db;
