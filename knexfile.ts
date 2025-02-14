@@ -24,6 +24,26 @@ const config: { [key: string]: Knex.Config } = {
       directory: './seeds',
     },
   },
+  test: {
+    client: 'pg',
+    connection: {
+      host: process.env.DB_TEST_HOST || 'localhost',
+      port: Number(process.env.DB_TEST_PORT) || 5435,
+      user: process.env.DB_TEST_USER || 'postgres',
+      password: process.env.DB_TEST_PASSWORD || '123',
+      database: process.env.DB_TEST_NAME || 'nestjsapi_test',
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      directory: './migrations',
+    },
+    seeds: {
+      directory: './seeds',
+    },
+  },
   readReplica: {
     client: 'pg',
     connection: {

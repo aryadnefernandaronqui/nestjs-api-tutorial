@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "Node16",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -10,8 +10,9 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "allowJs": true,
      "paths": {
-      "@nestjs/*": ["node_modules/@nestjs/*"]
+      "@/*": ["src/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import db from 'src/config/db/database';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(config: ConfigService) {
     const secret = config.get<string>('JWT_SECRET');
     if (!secret) {
@@ -17,6 +18,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: { sub: number; email: string }) {
-    return { userId: payload.sub, email: payload.email };
+    const user = await db('users').where({ uid: payload.sub }).first();
+    delete user.password;
+    return user;
   }
 }

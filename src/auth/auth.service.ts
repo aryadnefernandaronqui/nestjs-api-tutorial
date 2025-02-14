@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
-import db from 'src/config/db/database';
+import db from '../config/db/database';
 import { AuthDto } from './dto';
 
 @Injectable({})
@@ -75,7 +75,7 @@ export class AuthService {
     const secret = this.config.get<string>('JWT_SECRET');
 
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
+      expiresIn: '120m',
       secret: secret,
     });
 
