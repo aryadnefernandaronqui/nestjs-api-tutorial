@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres # or any other database like mysql
+    restart: always
+    container_name: nestjsapi-container-db
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: postgres
+      POSTGRES_DB: nestjsapi
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - 5434:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - my-container-db
+     
+networks:
+  my-container-db:
+    driver: bridge
+
+volumes:
+  postgres:
