@@ -4,10 +4,37 @@ import { CreateBookmarkDto, EditBookmarkDto } from './dto';
 
 @Injectable()
 export class BookmarkService {
-  async createBookmark(userId: number, dto: CreateBookmarkDto) {
+  async createBookmark(
+    userId: number,
+    shelfId: number,
+    dto: CreateBookmarkDto,
+  ) {
+    const user = await db('users').where('uid', userId).first();
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+    console.log('user in bookmark', user);
+
+    if (shelfId) {
+      const shelf = await db('shelves').where('uid', shelfId).first();
+      if (!shelf) {
+        throw new Error('Shelf não encontrado');
+      }
+    }
+
     const [bookmark] = await db('bookmarks')
-      .insert({ user_id: userId, ...dto })
+      .insert({
+        user_id: userId,
+        title: dto.title,
+        description: dto.description,
+        link: dto.link,
+        genre: dto.genre,
+        author: dto.author,
+        shelfId: shelfId || null,
+      })
       .returning('*');
+    console.log('Book', bookmark);
+
     return bookmark;
   }
 

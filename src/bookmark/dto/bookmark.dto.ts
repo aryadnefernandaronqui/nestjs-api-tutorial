@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateBookmarkDto {
   @IsString()
@@ -16,22 +16,14 @@ export class CreateBookmarkDto {
   @IsString()
   @IsOptional()
   description: string;
+
+  @IsString()
+  @IsOptional()
+  genre: string;
+
+  @IsOptional()
+  @IsUUID()
+  shelfId?: number;
 }
 
-export class EditBookmarkDto {
-  @IsString()
-  @IsOptional()
-  title?: string;
-
-  @IsString()
-  @IsOptional()
-  author?: string;
-
-  @IsString()
-  @IsOptional()
-  link?: string;
-
-  @IsString()
-  @IsOptional()
-  description?: string;
-}
+export class EditBookmarkDto extends CreateBookmarkDto {}

@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { CreateShelvesDto } from './dto/shelves.dto';
+import db from '../config/db/database';
+import { CreateShelvesDto } from './dto';
 
 @Injectable()
 export class ShelvesService {
-  async createShelf(userId: number, dto: CreateShelvesDto) {}
+  async createShelf(userId: number, dto: CreateShelvesDto) {
+    const user = await db('users').where('uid', userId).first();
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+    const [shelf] = await db('shelves')
+      .insert({ user_id: userId, name: dto.name, description: dto.description })
+      .returning('*');
+    console.log('Shelf', shelf);
 
-  //   async editUser(userId: number, dto: EditUserDto) {
-  //     const user = await db('users').where({ uid: userId }).first();
-  //     if (!user) {
-  //       throw new Error('User not found');
-  //     }
-  //     const updatedUser = await db('users')
-  //       .where({ uid: userId })
-  //       .update(dto)
-  //       .returning(['uid', 'first_name', 'last_name', 'email']);
-  //   }
+    return shelf;
+  }
 }

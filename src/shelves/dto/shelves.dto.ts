@@ -8,3 +8,5 @@ export class CreateShelvesDto {
   @IsOptional()
   description?: string;
 }
+
+export class EditShelvesDto extends CreateShelvesDto {}

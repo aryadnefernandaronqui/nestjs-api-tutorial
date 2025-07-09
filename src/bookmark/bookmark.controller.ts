@@ -18,12 +18,16 @@ import { CreateBookmarkDto, EditBookmarkDto } from './dto';
 export class BookmarkController {
   constructor(private bookmarkService: BookmarkService) {}
 
-  @Post()
+  @Post('create')
   createBookmark(
     @GetUser('id') userId: number,
     @Body() dto: CreateBookmarkDto,
   ) {
-    return this.bookmarkService.createBookmark(userId, dto);
+    return this.bookmarkService.createBookmark(
+      userId,
+      dto.shelfId ?? null,
+      dto,
+    );
   }
 
   @Get()
